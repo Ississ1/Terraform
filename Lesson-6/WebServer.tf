@@ -24,7 +24,7 @@ resource "aws_instance" "my_webserver" {
   user_data              = templatefile("user_data.sh.tpl", {
     f_name = "Alena",
     l_name = "Kashirina",
-    names  = ["Vasya", "Kolya", "Petya", "John", "Donald", "Masha", "Test"]
+    names  = ["Vasya", "Kolya", "Petya", "John", "Donald", "Masha", "Katya"]
   })
    user_data_replace_on_change = true
 
@@ -69,4 +69,4 @@ resource "aws_security_group" "my_webserver" {
     Owner = "Alena Kashirina"
   }
 
-}
+} 
