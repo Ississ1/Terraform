@@ -11,11 +11,12 @@ provider "aws" {
   region = "eu-central-1" 
 }
 
+resource "aws_default_vpc" "default" {}
 
 resource "aws_instance" "my_webserver" {
 ami                    = "ami-0499632f10efc5a62"   # Amazon Linux AMI
 instance_type          = "t2.micro"
-vpc_security_group_ids = ["aws_security_group.my_webserver.id"]
+vpc_security_group_ids = [aws_security_group.my_webserver.id]
 user_data = <<EOF
 #!/bin/bash
 yum -y update
@@ -26,12 +27,16 @@ sudo service httpd start
 chkconfig httpd on
 EOF
 
+  tags = {
+    Name = "Web Server Build by Terraform"
+    Owner = "Alena Kashirina"
+ }
 }
 
 resource "aws_security_group" "my_webserver" {
   name        = "Webserver Security Group"
   description = "My First SecurityGroup"
-  
+  vpc_id      = aws_default_vpc.default.id
 
   ingress {
     from_port        = 80
@@ -52,6 +57,11 @@ resource "aws_security_group" "my_webserver" {
     to_port          = 0
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "Web Server SecurityGroup"
+    Owner = "Alena Kashirina"
   }
 
 }

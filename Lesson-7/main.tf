@@ -40,7 +40,6 @@ resource "aws_instance" "my_server_db" {
   tags = {
     Name = "Server-Database"
   }
-  depends_on = [aws_instance.my_server_app]
 }
 
 resource "aws_security_group" "my_webserver" {
